@@ -3,6 +3,8 @@ package pl.sda.rental.movies.model;
 import lombok.AllArgsConstructor;
 import pl.sda.rental.movies.dto.MovieDto;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 public class MovieFacade {
 
@@ -15,5 +17,10 @@ public class MovieFacade {
         Movie savedMovie = movieRepository.save(movieEntity);
 
         return movieBuilderService.dtoFromEntity(savedMovie);
+    }
+
+    public MovieDto getMovie(Long id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        return movieBuilderService.dtoFromEntity(movie.get());
     }
 }
