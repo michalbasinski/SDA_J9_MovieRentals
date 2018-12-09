@@ -18,6 +18,11 @@ public class MovieBuilderService {
         result.setProductionDate(movieDto.getProductionDate());
         result.setLength(movieDto.getLength());
 
+        result.setCountry(Country.valueOf(movieDto.getCountryDto().name()));
+        List<Genre> genres = movieDto.getGenres()
+                .stream().map(x -> Genre.valueOf(x.name())).collect(Collectors.toList());
+        result.setGenres(genres);
+
         if (movieDto.getId() != null) {
             result.setId(Long.valueOf(movieDto.getId()));
         }
