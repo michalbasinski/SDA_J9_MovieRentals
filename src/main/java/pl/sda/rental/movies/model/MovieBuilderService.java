@@ -1,7 +1,10 @@
 package pl.sda.rental.movies.model;
 
 import lombok.AllArgsConstructor;
+import pl.sda.rental.movies.dto.CountryDto;
+import pl.sda.rental.movies.dto.GenreDto;
 import pl.sda.rental.movies.dto.MovieDto;
+import pl.sda.rental.movies.dto.PersonDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +41,36 @@ public class MovieBuilderService {
         result.setDirectors(directors);
         result.setCast(cast);
 
+        return result;
+    }
+
+    public MovieDto dtoFromEntity(Movie movie) {
+        MovieDto result = new MovieDto();
+
+        result.setId(movie.getId().toString());
+        result.setTitle(movie.getTitle());
+        result.setLength(movie.getLength());
+        result.setProductionDate(movie.getProductionDate());
+        result.setCountryDto(CountryDto.valueOf(movie.getCountry().name()));
+
+        List<PersonDto> directors = movie.getDirectors()
+                .stream()
+                .map(x -> personBuilderService.dtoFromEntity(x))
+                .collect(Collectors.toList());
+
+        List<PersonDto> cast = movie.getCast()
+                .stream()
+                .map(x -> personBuilderService.dtoFromEntity(x))
+                .collect(Collectors.toList());
+
+        List<GenreDto> genres = movie.getGenres()
+                .stream()
+                .map(x -> GenreDto.valueOf(x.name()))
+                .collect(Collectors.toList());
+
+        result.setDirectors(directors);
+        result.setCast(cast);
+        result.setGenres(genres);
         return result;
     }
 }

@@ -13,7 +13,7 @@ public class MovieFacade {
     public MovieDto saveMovie(MovieDto movie) {
         Movie movieEntity = movieBuilderService.entityFromDto(movie);
         Movie savedMovie = movieRepository.save(movieEntity);
-        //TODO: convert savedMovie to DTO object
-        return null;
+
+        return movieBuilderService.dtoFromEntity(savedMovie);
     }
 }
